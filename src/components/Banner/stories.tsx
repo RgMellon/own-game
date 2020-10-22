@@ -4,36 +4,31 @@ import Banner, { BannerProps } from '.'
 export default {
   title: 'Banner',
   component: Banner,
-  args: {
-    img: 'https://www.overclockers.co.uk/media/image/Cyberpunk-2077-banner.png',
-    title: 'Cyber Punk 2077',
-    subtitle: '<p> Play the new <strong> Epic Game </strong>',
-    buttonLabel: 'Buy Now',
-    buttonLink: '/games/cyber-punk'
+  argTypes: {
+    ribbon: {
+      type: 'string'
+    }
   },
-
+  args: {
+    img: 'https://source.unsplash.com/user/willianjusten/1042x580',
+    title: 'Defy death',
+    subtitle: '<p>Play the new <strong>CrashLands</strong> season',
+    buttonLabel: 'Buy now',
+    buttonLink: '/games/defy-death'
+  },
   parameters: {
     layout: 'fullscreen'
   }
 } as Meta
 
 export const Default: Story<BannerProps> = (args) => (
-  <div
-    style={{
-      width: '104rem',
-      margin: '0 auto'
-    }}
-  >
+  <div style={{ maxWidth: '104rem', margin: '0 auto' }}>
     <Banner {...args} />
   </div>
 )
 
 export const WithRibbon: Story<BannerProps> = (args) => (
-  <div
-    style={{
-      width: '104rem'
-    }}
-  >
+  <div style={{ maxWidth: '104rem', margin: '0 auto' }}>
     <Banner {...args} />
   </div>
 )
