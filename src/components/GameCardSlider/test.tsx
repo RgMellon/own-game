@@ -2,6 +2,7 @@ import 'match-media-mock'
 
 import GameCardSlider from '.'
 import { rendertWithTheme } from 'utils/tests/helpers'
+import { screen } from '@testing-library/react'
 
 const items = [
   {
@@ -54,13 +55,16 @@ describe('<GameCardSlider />', () => {
 
     expect(container.querySelectorAll('.slick-slide')).toHaveLength(6)
     expect(container.querySelectorAll('.slick-active')).toHaveLength(4)
+  })
 
-    // expect(
-    //   screen.getByRole('heading', { name: /Population Zero/i })
-    // ).toBeInTheDocument()
+  it('should render white arrows if color passed', () => {
+    rendertWithTheme(<GameCardSlider items={items} color="white" />)
 
-    // expect(
-    //   screen.getByRole('heading', { name: /Defy death 1/i, hidden: true })
-    // ).toBeInTheDocument()
+    expect(screen.getByLabelText(/previous games/i)).toHaveStyle({
+      color: '#FAFAFA'
+    })
+    expect(screen.getByLabelText(/next games/i)).toHaveStyle({
+      color: '#FAFAFA'
+    })
   })
 })
