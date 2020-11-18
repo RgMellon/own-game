@@ -1,16 +1,21 @@
 import styled, { css } from 'styled-components'
 import media from 'styled-media-query'
 
-type MenuFullProps = {
-  isOpen: boolean
-}
-
 export const Wrapper = styled.menu`
   ${({ theme }) => css`
     display: flex;
     align-items: center;
     padding: ${theme.spacings.small} 0;
     position: relative;
+    z-index: ${theme.layers.menu};
+  `}
+`
+
+export const LogoWrapper = styled.div`
+  ${media.lessThan('medium')`
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   `}
 `
 
@@ -20,14 +25,6 @@ export const IconWrapper = styled.div`
     cursor: pointer;
     width: 2.4rem;
     height: 2.4rem;
-  `}
-`
-
-export const LogoWrapper = styled.div`
-  ${media.lessThan('medium')`
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
   `}
 `
 
@@ -44,6 +41,14 @@ export const MenuGroup = styled.div`
   `}
 `
 
+export const MenuNav = styled.div`
+  ${({ theme }) => css`
+    ${media.greaterThan('medium')`
+			margin-left: ${theme.spacings.small};
+		`}
+  `}
+`
+
 export const MenuLink = styled.a`
   ${({ theme }) => css`
     position: relative;
@@ -52,6 +57,7 @@ export const MenuLink = styled.a`
     margin: 0.3rem ${theme.spacings.small} 0;
     text-decoration: none;
     text-align: center;
+
     &:hover {
       &::after {
         content: '';
@@ -61,6 +67,7 @@ export const MenuLink = styled.a`
         background-color: ${theme.colors.primary};
         animation: hoverAnimation 0.2s forwards;
       }
+
       @keyframes hoverAnimation {
         from {
           width: 0;
@@ -74,31 +81,28 @@ export const MenuLink = styled.a`
     }
   `}
 `
-export const MenuNav = styled.div`
-  ${({ theme }) => css`
-    ${media.greaterThan('medium')`
-      margin-left: ${theme.spacings.small};
-    `}
-  `}
-`
+
+type MenuFullProps = {
+  isOpen: boolean
+}
 
 export const MenuFull = styled.nav<MenuFullProps>`
-  ${({ isOpen, theme }) => css`
+  ${({ theme, isOpen }) => css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: opacity: 0.3s ease-in-out;
-    opacity: ${isOpen ? 1 : 0};
     background: ${theme.colors.white};
-    position: absolute;
+    position: fixed;
+    z-index: ${theme.layers.menu};
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     height: 100vh;
     overflow: hidden;
+    transition: opacity 0.3s ease-in-out;
+    opacity: ${isOpen ? 1 : 0};
     pointer-events: ${isOpen ? 'all' : 'none'};
-    /* pointer events tira a possibilidade de clicks */
 
     > svg {
       position: absolute;
@@ -128,8 +132,8 @@ export const MenuFull = styled.nav<MenuFullProps>`
     }
 
     ${RegisterBox} {
-        transform: ${isOpen ? 'translateY(0)' : 'translateY(3rem)'};
-        transition: transform 0.3s ease-in-out;
+      transform: ${isOpen ? 'translateY(0)' : 'translateY(3rem)'};
+      transition: transform 0.3s ease-in-out;
     }
   `}
 `
@@ -140,6 +144,7 @@ export const RegisterBox = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 0 ${theme.spacings.xlarge} ${theme.spacings.xlarge};
+
     > span {
       display: block;
       margin: ${theme.spacings.xxsmall} 0;

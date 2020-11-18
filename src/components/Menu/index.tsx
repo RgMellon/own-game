@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { useState } from 'react'
 
 import * as S from './styles'
@@ -49,7 +51,9 @@ const Menu = ({ username }: MenuProps) => {
 
         {!username && (
           <MediaMatch greatherThan="medium">
-            <Button> Sign In</Button>
+            <Link href="/sign-in" passHref>
+              <Button as="a"> Sign In</Button>
+            </Link>
           </MediaMatch>
         )}
       </S.MenuGroup>
@@ -71,13 +75,17 @@ const Menu = ({ username }: MenuProps) => {
 
         {!username && (
           <S.RegisterBox>
-            <Button fullWidth size="large">
-              Log in now
-            </Button>
+            <Link href="/sign-in" passHref>
+              <Button as="a" fullWidth size="large">
+                Sign in
+              </Button>
+            </Link>
             <span> or </span>
-            <S.CreateAccount href="#" title="Sign In">
-              Sign Up
-            </S.CreateAccount>
+            <Link href="/sign-up" passHref>
+              <S.CreateAccount href="#" title="Sign In">
+                Sign Up
+              </S.CreateAccount>
+            </Link>
           </S.RegisterBox>
         )}
       </S.MenuFull>

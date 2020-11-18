@@ -3,7 +3,7 @@ import { darken } from 'polished'
 import { ButtonProps } from '.'
 
 // o pick serve para pegar props em especifica, no caso pego size de buttonProps
-type WrapperProps = {
+export type WrapperProps = {
   hasIcon: boolean
 } & Pick<ButtonProps, 'size' | 'fullWidth' | 'minimal'>
 

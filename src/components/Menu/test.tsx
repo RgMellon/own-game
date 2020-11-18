@@ -34,14 +34,14 @@ describe('<Menu />', () => {
   it('should show registerbox when logged out', () => {
     rendertWithTheme(<Menu />)
 
-    expect(screen.getByText(/Log in now/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/sign in/i)).toHaveLength(2)
     expect(screen.getByText(/Sign Up/i)).toBeInTheDocument()
   })
 
   it('should show wishlist and account when logged in', () => {
     rendertWithTheme(<Menu username="Renan" />)
 
-    expect(screen.queryByText(/Log in now/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/sign in/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/Sign Up/i)).not.toBeInTheDocument()
 
     expect(screen.getByText(/My account/i)).toBeInTheDocument()
