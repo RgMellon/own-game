@@ -22,23 +22,6 @@ import Home from '.'
 import { rendertWithTheme } from 'utils/tests/helpers'
 
 //dessa forma estamos mocando o component para testar
-jest.mock('components/Menu', () => {
-  return {
-    __esModule: true,
-    default: function Mock() {
-      return <div data-testid="Mock Menu"> </div>
-    }
-  }
-})
-
-jest.mock('components/Footer', () => {
-  return {
-    __esModule: true,
-    default: function Mock() {
-      return <div data-testid="Mock Footer"> </div>
-    }
-  }
-})
 
 jest.mock('components/ShowCase', () => {
   return {
@@ -59,11 +42,9 @@ jest.mock('components/BannerSlider', () => {
 })
 
 describe('<Home />', () => {
-  it('should render the menu and footer', () => {
+  it('should render the Banner and showCases', () => {
     rendertWithTheme(<Home {...props} />)
 
-    expect(screen.getByTestId('Mock Menu')).toBeInTheDocument()
-    expect(screen.getByTestId('Mock Footer')).toBeInTheDocument()
     expect(screen.getByTestId('Mock BannerSlider')).toBeInTheDocument()
     expect(screen.getAllByTestId('Mock ShowCase')).toHaveLength(5)
   })
