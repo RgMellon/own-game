@@ -35,7 +35,7 @@ const Menu = ({ username }: MenuProps) => {
 
       <MediaMatch greatherThan="medium">
         <S.MenuNav>
-          <S.MenuLink href="#">Home</S.MenuLink>
+          <S.MenuLink href="/">Home</S.MenuLink>
           <S.MenuLink href="#">Explore</S.MenuLink>
         </S.MenuNav>
       </MediaMatch>
