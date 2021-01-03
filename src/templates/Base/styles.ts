@@ -9,6 +9,9 @@ export const Wrapper = styled.section`
 `
 
 export const Content = styled.div`
+  ${({ theme }) => css`
+    margin-top: ${theme.spacings.large};
+  `}
   flex: 1 0 auto;
 `
 
