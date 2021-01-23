@@ -4,6 +4,7 @@ import Radio from 'components/Radio'
 import Button from 'components/Button'
 
 import * as S from './styles'
+import { useState } from 'react'
 
 export type PaymentCard = {
   number: string
@@ -16,49 +17,58 @@ export type PaymentOptionsProps = {
   handlePayment: () => void
 }
 
-const PaymentOptions = ({ cards, handlePayment }: PaymentOptionsProps) => (
-  <S.Wrapper>
-    <S.Body>
-      <Heading color="black" size="small" lineBottom>
-        Payment
-      </Heading>
+const PaymentOptions = ({ cards, handlePayment }: PaymentOptionsProps) => {
+  const [checked, setChecked] = useState(false)
 
-      <S.CardsList>
-        {cards?.map((card) => (
-          <S.CardItem key={card.number}>
-            <S.CardInfo>
-              <img src={card.img} alt={card.flag} />
-              {card.number}
-            </S.CardInfo>
+  return (
+    <S.Wrapper>
+      <S.Body>
+        <Heading color="black" size="small" lineBottom>
+          Payment
+        </Heading>
 
-            <Radio
-              name="credit-card"
-              id={card.number}
-              value={card.number}
-              onCheck={() => {
-                console.log('oi')
-              }}
-            />
-          </S.CardItem>
-        ))}
+        <S.CardsList>
+          {cards?.map((card) => (
+            <S.CardItem key={card.number}>
+              <S.CardInfo>
+                <img src={card.img} alt={card.flag} />
+                {card.number}
+              </S.CardInfo>
 
-        <S.AddCard role="button">
-          <Add size={14} />
-          Add a new Credit Card
-        </S.AddCard>
-      </S.CardsList>
-    </S.Body>
+              <Radio
+                name="credit-card"
+                id={card.number}
+                value={card.number}
+                onCheck={() => {
+                  setChecked(true)
+                }}
+              />
+            </S.CardItem>
+          ))}
 
-    <S.Footer>
-      <Button as="a" fullWidth minimal>
-        Continue shopping
-      </Button>
+          <S.AddCard role="button">
+            <Add size={14} />
+            Add a new Credit Card
+          </S.AddCard>
+        </S.CardsList>
+      </S.Body>
 
-      <Button fullWidth minimal icon={<ShoppingCart />} onClick={handlePayment}>
-        Buy Now
-      </Button>
-    </S.Footer>
-  </S.Wrapper>
-)
+      <S.Footer>
+        <Button as="a" fullWidth minimal>
+          Continue shopping
+        </Button>
+
+        <Button
+          fullWidth
+          icon={<ShoppingCart />}
+          onClick={handlePayment}
+          disabled={!checked}
+        >
+          Buy Now
+        </Button>
+      </S.Footer>
+    </S.Wrapper>
+  )
+}
 
 export default PaymentOptions
