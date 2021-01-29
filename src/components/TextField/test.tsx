@@ -8,7 +8,7 @@ import { Email } from '@styled-icons/material-outlined'
 
 describe('<TextField />', () => {
   it('Renders with Label', () => {
-    rendertWithTheme(<TextField label="Label" labelFor="Field" id="Field" />)
+    rendertWithTheme(<TextField label="Label" name="Label" />)
 
     expect(screen.getByLabelText('Label')).toBeInTheDocument()
   })
@@ -26,8 +26,7 @@ describe('<TextField />', () => {
       <TextField
         onInput={onInput}
         label="TextField"
-        labelFor="TextField"
-        id="TextField"
+        name="TextField"
         disabled
       />
     )
@@ -68,12 +67,7 @@ describe('<TextField />', () => {
   it('Changes its value when typing', async () => {
     const onInput = jest.fn()
     rendertWithTheme(
-      <TextField
-        onInput={onInput}
-        label="TextField"
-        labelFor="TextField"
-        id="TextField"
-      />
+      <TextField onInput={onInput} label="TextField" name="TextField" />
     )
 
     const input = screen.getByRole('textbox')
@@ -88,9 +82,7 @@ describe('<TextField />', () => {
   })
 
   it('Is accessible by tab', () => {
-    rendertWithTheme(
-      <TextField label="TextField" labelFor="TextField" id="TextField" />
-    )
+    rendertWithTheme(<TextField label="TextField" name="TextField" />)
 
     const input = screen.getByLabelText('TextField')
     expect(document.body).toHaveFocus()
@@ -100,14 +92,7 @@ describe('<TextField />', () => {
   })
 
   it('is not accessible by tab when disabled', () => {
-    rendertWithTheme(
-      <TextField
-        label="TextField"
-        labelFor="TextField"
-        id="TextField"
-        disabled
-      />
-    )
+    rendertWithTheme(<TextField label="TextField" name="TextField" disabled />)
 
     const input = screen.getByLabelText('TextField')
     expect(document.body).toHaveFocus()
@@ -120,8 +105,6 @@ describe('<TextField />', () => {
     rendertWithTheme(
       <TextField
         label="TextField"
-        labelFor="TextField"
-        id="TextField"
         icon={<Email data-testid="icon" />}
         error="Error ocurred"
       />

@@ -8,11 +8,9 @@ export default {
   component: TextField,
   args: {
     label: 'E-mail',
-    labelFor: 'Email',
-    id: 'Email',
+    name: 'email',
     initialValue: '',
     error: '',
-
     placeholder: 'john.cage@gmail.com'
   },
   argTypes: {
