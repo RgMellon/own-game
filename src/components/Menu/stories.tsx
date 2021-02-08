@@ -14,3 +14,15 @@ Default.parameters = {
     default: 'won-dark'
   }
 }
+
+export const Logged: Story<MenuProps> = (args) => <Menu {...args} />
+Logged.args = {
+  username: 'Renan'
+}
+
+Logged.parameters = {
+  layout: 'fullscreen',
+  backgrounds: {
+    default: 'won-dark'
+  }
+}

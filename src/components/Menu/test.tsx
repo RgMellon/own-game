@@ -9,7 +9,7 @@ describe('<Menu />', () => {
 
     expect(screen.getByLabelText(/Open Menu/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/search/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Open shopping cart/i)).toBeInTheDocument()
+    // expect(screen.getByLabelText(/Open shopping cart/i)).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /won games/i })).toBeInTheDocument()
   })
 
@@ -41,10 +41,10 @@ describe('<Menu />', () => {
   it('should show wishlist and account when logged in', () => {
     rendertWithTheme(<Menu username="Renan" />)
 
+    expect(screen.getAllByText(/my profile/i)).toHaveLength(2)
+    expect(screen.getAllByText(/wishlist/i)).toHaveLength(2)
+
     expect(screen.queryByText(/sign in/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/Sign Up/i)).not.toBeInTheDocument()
-
-    expect(screen.getByText(/My account/i)).toBeInTheDocument()
-    expect(screen.getByText(/Wishlist/i)).toBeInTheDocument()
   })
 })
