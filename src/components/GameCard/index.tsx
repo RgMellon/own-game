@@ -6,17 +6,20 @@ import {
   Favorite
 } from '@styled-icons/material-outlined'
 
-import * as S from './styles'
+import formatPrice from 'utils/format-price'
+
 import Button from 'components/Button'
 import Ribbon, { RibbonSizes, RibbonColors } from 'components/Ribbon'
+
+import * as S from './styles'
 
 export type GameCardProp = {
   slug: string
   title: string
   developer: string
   img: string
-  price: string
-  promotionalPrice?: string
+  price: number
+  promotionalPrice?: number
   favorite?: boolean
   onFav?: () => void
   ribbon?: string
@@ -66,8 +69,10 @@ const GameCard = ({
       </S.FavButton>
 
       <S.BuyBox>
-        {!!promotionalPrice && <S.Price isPromotional>{price}</S.Price>}
-        <S.Price>{promotionalPrice || price}</S.Price>
+        {!!promotionalPrice && (
+          <S.Price isPromotional>{formatPrice(price)}</S.Price>
+        )}
+        <S.Price>{formatPrice(promotionalPrice || price)}</S.Price>
         <Button size="small" icon={<AddShoppingCart />} />
       </S.BuyBox>
     </S.Content>
