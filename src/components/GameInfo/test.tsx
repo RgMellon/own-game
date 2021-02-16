@@ -6,7 +6,7 @@ import GameInfo from '.'
 const props = {
   title: 'My Game Tilte',
   description: 'My Game Descriptio',
-  price: '210,00'
+  price: 200
 }
 
 describe('<GameInfo />', () => {
@@ -18,7 +18,7 @@ describe('<GameInfo />', () => {
     ).toBeInTheDocument()
 
     expect(screen.getByText('My Game Descriptio')).toBeInTheDocument()
-    expect(screen.getByText(/\$210,00/)).toBeInTheDocument()
+    expect(screen.getByText(/\$200\.00/)).toBeInTheDocument()
   })
 
   it('should render Buttons', () => {
