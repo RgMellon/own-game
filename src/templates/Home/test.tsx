@@ -8,13 +8,12 @@ import highlightMock from 'components/Highlight/mock'
 
 const props = {
   banners: bannersMock,
-  newGames: [gamesMock[0]],
+  newGames: gamesMock,
   mostPopularHighLight: highlightMock,
-  mostPopularGames: [gamesMock[0]],
-  upcommingGames: [gamesMock[0]],
+  mostPopularGames: gamesMock,
+  upcommingGames: gamesMock,
   upcommingHighLights: highlightMock,
-  upcommingMoreGames: [gamesMock[0]],
-  freeGames: [gamesMock[0]],
+  freeGames: gamesMock,
   freeHighLight: highlightMock
 }
 
@@ -46,6 +45,6 @@ describe('<Home />', () => {
     rendertWithTheme(<Home {...props} />)
 
     expect(screen.getByTestId('Mock BannerSlider')).toBeInTheDocument()
-    expect(screen.getAllByTestId('Mock ShowCase')).toHaveLength(5)
+    expect(screen.getAllByTestId('Mock ShowCase')).toHaveLength(4)
   })
 })

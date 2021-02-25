@@ -1,31 +1,60 @@
-// import { gql, useQuery } from '@apollo/client'
-
 import Home, { HomeTemplateProps } from 'templates/Home'
-import bannersMock from 'components/BannerSlider/mock'
+
 import gamesMock from 'components/GameCardSlider/mock'
 import highlightMock from 'components/Highlight/mock'
+import { initializeApollo } from 'utils/tests/apollo'
+import { QueryHome } from 'graphql/generated/QueryHome'
+import { QUERY_HOME } from 'graphql/queries/home'
 
 export default function Index(props: HomeTemplateProps) {
   return <Home {...props} />
 }
 
-export async function getServerSideProps() {
-  // const apolloClient = initializeApollo()
-
-  // const { data } = await apolloClient.query({ query: GET_GAMES })
+export async function getStaticProps() {
+  const apolloClient = initializeApollo()
+  const {
+    data: { banners, newGames, upcomingGames, freeGames }
+  } = await apolloClient.query<QueryHome>({ query: QUERY_HOME })
 
   return {
     props: {
-      // data,
-      // initialApolloState: apolloClient.cache.extract(),
-      banners: bannersMock,
-      newGames: gamesMock,
+      revalidate: 60,
+      banners: banners.map((banner) => ({
+        img: `http://localhost:1337${banner.image?.url}`,
+        title: banner.title,
+        subtitle: banner.subtitle,
+        buttonLabel: banner.button?.label,
+        buttonLink: banner.button?.link,
+        ...(banner.ribbon && {
+          ribbon: banner.ribbon.text,
+          ribbonColor: banner.ribbon.color,
+          ribbonSize: banner.ribbon.size
+        })
+      })),
+      newGames: newGames.map((game) => ({
+        title: game.name,
+        slug: game.slug,
+        developer: game.developers[0].name,
+        img: `http://localhost:1337${game.cover?.url}`,
+        price: game.price
+      })),
       mostPopularHighLight: highlightMock,
       mostPopularGames: gamesMock,
-      upcommingGames: gamesMock,
+      upcommingGames: upcomingGames.map((game) => ({
+        title: game.name,
+        slug: game.slug,
+        developer: game.developers[0].name,
+        img: `http://localhost:1337${game.cover?.url}`,
+        price: game.price
+      })),
       upcommingHighLights: highlightMock,
-      upcommingMoreGames: gamesMock,
-      freeGames: gamesMock,
+      freeGames: freeGames.map((game) => ({
+        title: game.name,
+        slug: game.slug,
+        developer: game.developers[0].name,
+        img: `http://localhost:1337${game.cover?.url}`,
+        price: game.price
+      })),
       freeHighLight: highlightMock
     }
   }
