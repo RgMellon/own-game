@@ -14,7 +14,11 @@ const props = {
   upcommingGames: gamesMock,
   upcommingHighLights: highlightMock,
   freeGames: gamesMock,
-  freeHighLight: highlightMock
+  freeHighLight: highlightMock,
+  newGamesTitle: 'new game',
+  upcomingGamesTitle: 'up coming',
+  mostPopularGamesTitle: 'most popular',
+  freeGamesTitle: 'free games'
 }
 
 import Home from '.'
