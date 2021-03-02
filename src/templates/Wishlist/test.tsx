@@ -9,7 +9,8 @@ import { rendertWithTheme } from 'utils/tests/helpers'
 const props = {
   games: gamesMock,
   recommendedGames: gamesMock,
-  recommendedHighlight: highlighMock
+  recommendedHighlight: highlighMock,
+  recommendedTitle: 'You may like these games'
 }
 
 jest.mock('components/ShowCase', () => {
