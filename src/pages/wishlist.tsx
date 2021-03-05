@@ -3,7 +3,7 @@ import Wishlist, { WishlistTemplateProps } from 'templates/Wishlist'
 
 import gamesMock from 'components/GameCardSlider/mock'
 
-import { initializeApollo } from 'utils/tests/apollo'
+import { initializeApollo } from 'utils/apollo'
 import { QueryRecomended } from 'graphql/generated/QueryRecomended'
 import { QUERY_RECOMMENDED } from 'graphql/queries/recommended'
 import { gamesMapper, highlightMapper } from 'utils/mappers'

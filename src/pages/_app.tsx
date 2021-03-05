@@ -1,4 +1,4 @@
-import { useApollo } from 'utils/tests/apollo'
+import { useApollo } from 'utils/apollo'
 import { ApolloProvider } from '@apollo/client'
 
 import { ThemeProvider } from 'styled-components'
@@ -11,7 +11,7 @@ import theme from '../styles/theme'
 
 function App({ Component, pageProps }: AppProps) {
   //initialApoloState => cache do apollo
-  const client = useApollo(pageProps.initialApoloState)
+  const client = useApollo(pageProps.initialApolloState)
 
   return (
     <ApolloProvider client={client}>
