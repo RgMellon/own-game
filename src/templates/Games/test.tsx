@@ -5,7 +5,10 @@ import { rendertWithTheme } from 'utils/tests/helpers'
 import filterMock from 'components/ExploreSideBar/mock'
 
 import Games from '.'
-import { QUERY_GAMES } from 'graphql/queries/games'
+
+import { fetchMoreMock, gamesMock } from './mocks'
+import userEvent from '@testing-library/user-event'
+import apolloCache from 'utils/apolloCache'
 
 jest.mock('templates/Base', () => ({
   __esModule: true,
@@ -34,39 +37,7 @@ describe('<Games />', () => {
 
   it('should render the heading', async () => {
     rendertWithTheme(
-      <MockedProvider
-        mocks={[
-          {
-            request: {
-              query: QUERY_GAMES,
-              variables: {
-                limit: 15
-              }
-            },
-            result: {
-              data: {
-                games: [
-                  {
-                    name: 'Warcraft I & II Bundle',
-                    slug: 'warcraft-bundle',
-                    cover: {
-                      url: '/uploads/warcraft_bundle_d3222d5fb0.jpg'
-                    },
-                    developers: [
-                      {
-                        name: 'Blizzard Entertainment, Inc.'
-                      }
-                    ],
-                    price: 77.79,
-                    __typename: 'Game'
-                  }
-                ]
-              }
-            }
-          }
-        ]}
-        addTypename={false}
-      >
+      <MockedProvider mocks={[gamesMock]} addTypename={false}>
         <Games filterItems={filterMock} />
       </MockedProvider>
     )
@@ -77,12 +48,22 @@ describe('<Games />', () => {
 
     //we wait until we have data to get the elements;
     expect(await screen.findByTestId('Mock ExploreSideBar')).toBeInTheDocument()
-    expect(
-      await screen.findByText(/Warcraft I & II Bundle/i)
-    ).toBeInTheDocument()
+    expect(await screen.findByText(/Sample Game/i)).toBeInTheDocument()
 
     expect(
       await screen.findByRole('button', { name: /show More/i })
     ).toBeInTheDocument()
+  })
+
+  it('Should render more games when show more is clicked', async () => {
+    rendertWithTheme(
+      <MockedProvider mocks={[gamesMock, fetchMoreMock]} cache={apolloCache}>
+        <Games filterItems={filterMock} />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByText(/Sample Game/i)).toBeInTheDocument()
+    userEvent.click(await screen.findByRole('button', { name: /show More/i }))
+    expect(await screen.findByText(/Fetch More Games/i)).toBeInTheDocument()
   })
 })
