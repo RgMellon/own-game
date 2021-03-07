@@ -26,7 +26,6 @@ export const parseQueryStringToWhere = ({
           }
     })
 
-  // console.log(obj)
   return obj
 }
 
@@ -43,7 +42,6 @@ export const parseQueryStringToFilter = ({
     const isArray = Array.isArray(queryString[key])
 
     obj[key] = !isArray && isCheckbox ? [queryString[key]] : queryString[key]
-    // console.log(obj)
   })
 
   return obj
