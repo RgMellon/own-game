@@ -42,6 +42,7 @@ export interface QueryGameBySlug_games_gallery {
 
 export interface QueryGameBySlug_games {
   __typename: "Game";
+  id: string;
   name: string;
   cover: QueryGameBySlug_games_cover | null;
   developers: QueryGameBySlug_games_developers[];
