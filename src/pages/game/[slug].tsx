@@ -60,9 +60,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   })
 
-  // if (!data.games.length) {
-  //   return { notFound: true }
-  // }
+  if (!data.games.length) {
+    return { notFound: true }
+  }
 
   const game = data.games[0]
 
@@ -79,8 +79,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   })
 
   return {
+    revalidate: 60,
     props: {
-      revalidate: 60,
       cover: `http://localhost:1337${game.cover?.src}`,
       gameInfo: {
         title: game.name,
