@@ -6,7 +6,7 @@ import filterMock from 'components/ExploreSideBar/mock'
 
 import Games from '.'
 
-import { fetchMoreMock, gamesMock } from './mocks'
+import { fetchMoreMock, gamesMock, noGamesMock } from './mocks'
 import userEvent from '@testing-library/user-event'
 import apolloCache from 'utils/apolloCache'
 
@@ -29,16 +29,6 @@ jest.mock('templates/Base', () => ({
 }))
 
 describe('<Games />', () => {
-  it('should render loading when starting the template', () => {
-    rendertWithTheme(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <Games filterItems={filterMock} />
-      </MockedProvider>
-    )
-
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument()
-  })
-
   it('should render the sections', async () => {
     rendertWithTheme(
       <MockedProvider mocks={[gamesMock]} addTypename={false}>
@@ -46,16 +36,24 @@ describe('<Games />', () => {
       </MockedProvider>
     )
 
-    // it starts without data
-    // shows loading
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument()
-
     //we wait until we have data to get the elements;
     expect(await screen.findByText(/price/i)).toBeInTheDocument()
     expect(await screen.findByText(/Sample Game/i)).toBeInTheDocument()
 
     expect(
       await screen.findByRole('button', { name: /show More/i })
+    ).toBeInTheDocument()
+  })
+
+  it('should render when no games found', async () => {
+    rendertWithTheme(
+      <MockedProvider mocks={[noGamesMock]} addTypename={false}>
+        <Games filterItems={filterMock} />
+      </MockedProvider>
+    )
+
+    expect(
+      await screen.findByText(/We didn't find any games with this filter/i)
     ).toBeInTheDocument()
   })
 

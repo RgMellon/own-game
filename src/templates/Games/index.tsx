@@ -5,7 +5,8 @@ import { useQueryGames } from 'graphql/queries/games'
 import ExploreSidebar, { ItemProps } from 'components/ExploreSideBar'
 import { Grid } from 'components/Grid'
 import GameCard from 'components/GameCard'
-import Loading from 'components/Loading'
+
+import Empty from 'components/Empty'
 
 import * as S from './styles'
 import {
@@ -14,6 +15,7 @@ import {
 } from 'utils/filters'
 import { useRouter } from 'next/router'
 import { ParsedUrlQueryInput } from 'querystring'
+import React from 'react'
 
 export type GamesTemplateProps = {
   filterItems: ItemProps[]
@@ -24,12 +26,20 @@ const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
   const { push, query } = useRouter()
 
   const { data, loading, fetchMore } = useQueryGames({
+    notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
       where: parseQueryStringToWhere({ queryString: query, filterItems }),
       sort: query.sort as string | null
     }
   })
+
+  if (!data) {
+    return <p> Loading ... </p>
+  }
+
+  const { games, gamesConnection } = data
+  const hasMoreGames = games?.length < (gamesConnection?.values?.length || 0)
 
   const handleFilter = (items: ParsedUrlQueryInput) => {
     push({
@@ -58,29 +68,45 @@ const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
           })}
         />
 
-        {loading ? (
-          <Loading />
-        ) : (
-          <section>
-            <Grid>
-              {data?.games.map((game) => (
-                <GameCard
-                  key={game.slug}
-                  title={game.name}
-                  developer={game.developers[0].name}
-                  img={`http://localhost:1337${game.cover!.url}`}
-                  price={game.price}
-                  slug={game.slug}
-                />
-              ))}
-            </Grid>
+        <section>
+          {data?.games.length ? (
+            <>
+              <Grid>
+                {data?.games.map((game) => (
+                  <GameCard
+                    key={game.slug}
+                    title={game.name}
+                    developer={game.developers[0].name}
+                    img={`http://localhost:1337${game.cover!.url}`}
+                    price={game.price}
+                    slug={game.slug}
+                  />
+                ))}
+              </Grid>
 
-            <S.ShowMore role="button" onClick={handleShowMore}>
-              <p> Show More</p>
-              <ArrowDown size={35} />
-            </S.ShowMore>
-          </section>
-        )}
+              {hasMoreGames && (
+                <S.ShowMore>
+                  {loading ? (
+                    <S.ShowMoreLoading
+                      src="/img/dot.svg"
+                      alt="loading more games"
+                    />
+                  ) : (
+                    <S.ShowMoreButton role="button" onClick={handleShowMore}>
+                      <p> Show More</p>
+                      <ArrowDown size={35} />
+                    </S.ShowMoreButton>
+                  )}
+                </S.ShowMore>
+              )}
+            </>
+          ) : (
+            <Empty
+              title=":("
+              description="We didn't find any games with this filter"
+            />
+          )}
+        </section>
       </S.Main>
     </Base>
   )
