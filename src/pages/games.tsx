@@ -10,7 +10,6 @@ export default function GamesPage(props: GamesTemplateProps) {
 }
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
-  console.log(query)
   const apolloClient = initializeApollo()
 
   const filterPrice = {
