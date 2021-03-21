@@ -1,7 +1,6 @@
 import 'match-media-mock'
 
-import { screen } from '@testing-library/react'
-import { rendertWithTheme } from 'utils/tests/helpers'
+import { render, screen } from 'utils/test-utils'
 
 import ShowCase from '.'
 
@@ -16,7 +15,7 @@ const props = {
 
 describe('<ShowCase />', () => {
   it('should render a full showcase', () => {
-    rendertWithTheme(<ShowCase {...props} />)
+    render(<ShowCase {...props} />)
 
     expect(
       screen.getByRole('heading', { name: /Most populars/i })
@@ -32,13 +31,13 @@ describe('<ShowCase />', () => {
   })
 
   it('should render without a title', () => {
-    rendertWithTheme(<ShowCase />)
+    render(<ShowCase />)
 
     expect(screen.queryByText(/Most Popular/i)).not.toBeInTheDocument()
   })
 
   it('should render without a highlight', () => {
-    rendertWithTheme(<ShowCase />)
+    render(<ShowCase />)
 
     expect(
       screen.queryByRole('heading', { name: highlightMock.title })
@@ -46,9 +45,7 @@ describe('<ShowCase />', () => {
   })
 
   it('should render without games', () => {
-    rendertWithTheme(
-      <ShowCase title={props.title} highlight={props.highlight} />
-    )
+    render(<ShowCase title={props.title} highlight={props.highlight} />)
 
     expect(
       screen.getByRole('heading', { name: /Most populars/i })

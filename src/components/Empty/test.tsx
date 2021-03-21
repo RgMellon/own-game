@@ -1,5 +1,4 @@
-import { screen } from '@testing-library/react'
-import { rendertWithTheme } from 'utils/tests/helpers'
+import { render, screen } from 'utils/test-utils'
 
 import Empty from '.'
 
@@ -10,7 +9,7 @@ const props = {
 
 describe('<Empty />', () => {
   it('should render the Empty component', () => {
-    rendertWithTheme(<Empty {...props} hasLink />)
+    render(<Empty {...props} hasLink />)
 
     expect(
       screen.getByRole('image', {
@@ -28,7 +27,7 @@ describe('<Empty />', () => {
   })
 
   it('should render the Empty component without the back button', () => {
-    rendertWithTheme(<Empty {...props} />)
+    render(<Empty {...props} />)
 
     expect(
       screen.queryByRole('link', { name: /Go back to store/i })

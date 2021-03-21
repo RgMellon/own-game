@@ -1,11 +1,10 @@
-import { screen } from '@testing-library/react'
-import { rendertWithTheme } from 'utils/tests/helpers'
+import { render, screen } from 'utils/test-utils'
 
 import Auth from '.'
 
 describe('<Auth />', () => {
   it('should render  logos, title, children', () => {
-    rendertWithTheme(<Auth title="title">children</Auth>)
+    render(<Auth title="title">children</Auth>)
 
     expect(screen.getByRole('heading', { name: /title/i })).toBeInTheDocument()
     expect(screen.getByText(/children/i)).toBeInTheDocument()

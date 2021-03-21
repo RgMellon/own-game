@@ -1,10 +1,10 @@
-import { rendertWithTheme } from 'utils/tests/helpers'
+import { render } from 'utils/test-utils'
 
 import { FormWrapper, FormLink } from '.'
 
 describe('<Form />', () => {
   it('should render the form', () => {
-    const { container } = rendertWithTheme(
+    const { container } = render(
       <FormWrapper>
         <FormLink>
           My nice <a href="#"> link </a>
@@ -43,7 +43,6 @@ describe('<Form />', () => {
 
       <body>
         <div>
-           
           <main
             class="c0"
           >
@@ -58,7 +57,6 @@ describe('<Form />', () => {
               </a>
             </div>
           </main>
-           
         </div>
       </body>
     `)

@@ -1,5 +1,4 @@
-import { rendertWithTheme } from 'utils/tests/helpers'
-import { screen } from '@testing-library/react'
+import { render, screen } from 'utils/test-utils'
 
 import GameDetails, { GameDetailProps } from '.'
 
@@ -13,7 +12,7 @@ const props: GameDetailProps = {
 
 describe('<GameDetails />', () => {
   it('should render the blocks', () => {
-    rendertWithTheme(<GameDetails {...props} />)
+    render(<GameDetails {...props} />)
 
     expect(
       screen.getByRole('heading', { name: /Developer/i })
@@ -33,32 +32,32 @@ describe('<GameDetails />', () => {
   })
 
   it('should render the platform icons', () => {
-    rendertWithTheme(<GameDetails {...props} />)
+    render(<GameDetails {...props} />)
 
     expect(screen.getByRole('img', { name: /linux/i })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /windows/i })).toBeInTheDocument()
   })
 
   it('should render free rating when BR0', () => {
-    rendertWithTheme(<GameDetails {...props} />)
+    render(<GameDetails {...props} />)
 
     expect(screen.getByText(/free/i)).toBeInTheDocument()
   })
 
   it('should render 18+ rating when BR18', () => {
-    rendertWithTheme(<GameDetails {...props} rating="BR18" />)
+    render(<GameDetails {...props} rating="BR18" />)
 
     expect(screen.getByText(/18\+/i)).toBeInTheDocument()
   })
 
   it('should render the formated date', () => {
-    rendertWithTheme(<GameDetails {...props} />)
+    render(<GameDetails {...props} />)
 
     expect(screen.getByText('Nov 21, 2020')).toBeInTheDocument()
   })
 
   it('should render a list of genres', () => {
-    rendertWithTheme(<GameDetails {...props} />)
+    render(<GameDetails {...props} />)
 
     expect(screen.getByText('Role-playing / Narrative')).toBeInTheDocument()
 

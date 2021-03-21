@@ -1,18 +1,14 @@
 import 'match-media-mock'
 
-import { fireEvent, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from 'utils/test-utils'
 
 import Gallery from '.'
-
-import { rendertWithTheme } from 'utils/tests/helpers'
 
 import mockItems from './mock'
 
 describe('<Gallery />', () => {
   it('should render the thumbnails as buttons', () => {
-    const { container } = rendertWithTheme(
-      <Gallery items={mockItems.slice(0, 2)} />
-    )
+    const { container } = render(<Gallery items={mockItems.slice(0, 2)} />)
 
     expect(
       screen.getByRole('button', { name: /Thumb - Gallery Image 1/i })
@@ -26,7 +22,7 @@ describe('<Gallery />', () => {
   })
 
   it('should handle open modal', () => {
-    rendertWithTheme(<Gallery items={mockItems.slice(0, 2)} />)
+    render(<Gallery items={mockItems.slice(0, 2)} />)
 
     const modal = screen.getByLabelText('modal')
 
@@ -42,7 +38,7 @@ describe('<Gallery />', () => {
   })
 
   it('should handle open modal with selected image', async () => {
-    rendertWithTheme(<Gallery items={mockItems.slice(0, 2)} />)
+    render(<Gallery items={mockItems.slice(0, 2)} />)
 
     //clico na thumbnail
     fireEvent.click(
@@ -55,7 +51,7 @@ describe('<Gallery />', () => {
   })
 
   it('should handle close modal when overlay or button clicked', () => {
-    rendertWithTheme(<Gallery items={mockItems.slice(0, 2)} />)
+    render(<Gallery items={mockItems.slice(0, 2)} />)
 
     const modal = screen.getByLabelText('modal')
 
@@ -71,9 +67,7 @@ describe('<Gallery />', () => {
   })
 
   it('should handle close modal when pressed esc', () => {
-    const { container } = rendertWithTheme(
-      <Gallery items={mockItems.slice(0, 2)} />
-    )
+    const { container } = render(<Gallery items={mockItems.slice(0, 2)} />)
 
     const modal = screen.getByLabelText('modal')
 

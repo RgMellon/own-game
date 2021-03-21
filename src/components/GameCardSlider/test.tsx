@@ -1,8 +1,8 @@
 import 'match-media-mock'
 
 import GameCardSlider from '.'
-import { rendertWithTheme } from 'utils/tests/helpers'
-import { screen } from '@testing-library/react'
+
+import { render, screen } from 'utils/test-utils'
 
 const items = [
   {
@@ -51,14 +51,14 @@ const items = [
 
 describe('<GameCardSlider />', () => {
   it('should render with one active item', () => {
-    const { container } = rendertWithTheme(<GameCardSlider items={items} />)
+    const { container } = render(<GameCardSlider items={items} />)
 
     expect(container.querySelectorAll('.slick-slide')).toHaveLength(6)
     expect(container.querySelectorAll('.slick-active')).toHaveLength(4)
   })
 
   it('should render white arrows if color passed', () => {
-    rendertWithTheme(<GameCardSlider items={items} color="white" />)
+    render(<GameCardSlider items={items} color="white" />)
 
     expect(screen.getByLabelText(/previous games/i)).toHaveStyle({
       color: '#FAFAFA'

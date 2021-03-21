@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from 'utils/test-utils'
 
 import galleryMock from 'components/Gallery/mock'
 import gameInfoMock from 'components/GameInfo/mock'
@@ -7,7 +7,6 @@ import gamesMock from 'components/GameCardSlider/mock'
 import highLightMock from 'components/Highlight/mock'
 
 import Game, { GameTemplateProps } from '.'
-import { rendertWithTheme } from 'utils/tests/helpers'
 
 const props: GameTemplateProps = {
   cover: 'bg-img',
@@ -67,7 +66,7 @@ jest.mock('components/ShowCase', () => {
 
 describe('<Game />', () => {
   it('should render the template with components', () => {
-    rendertWithTheme(<Game {...props} />)
+    render(<Game {...props} />)
     expect(screen.getByTestId('Mock Gallery')).toBeInTheDocument()
     expect(screen.getByTestId('Mock GameDetails')).toBeInTheDocument()
     expect(screen.getByTestId('Mock GameInfo')).toBeInTheDocument()
@@ -76,13 +75,13 @@ describe('<Game />', () => {
   })
 
   it('should render the template the gallery without images', () => {
-    rendertWithTheme(<Game {...props} gallery={undefined} />)
+    render(<Game {...props} gallery={undefined} />)
 
     expect(screen.queryByTestId('Mock Gallery')).not.toBeInTheDocument()
   })
 
   it('should not render the Gallery on mobile', () => {
-    rendertWithTheme(<Game {...props} />)
+    render(<Game {...props} />)
 
     expect(screen.getByTestId('Mock Gallery').parentElement).toHaveStyle({
       display: 'none'
@@ -98,7 +97,7 @@ describe('<Game />', () => {
   })
 
   it('should  render the Cover Image', () => {
-    rendertWithTheme(<Game {...props} />)
+    render(<Game {...props} />)
 
     expect(screen.getByRole('image', { name: /cover/i })).toHaveStyle({
       backgroundImage: 'url(bg-img)',

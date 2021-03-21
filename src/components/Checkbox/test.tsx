@@ -1,12 +1,11 @@
 import userEvent from '@testing-library/user-event'
-import { screen, waitFor } from '@testing-library/react'
-import { rendertWithTheme } from 'utils/tests/helpers'
+import { screen, waitFor, render } from 'utils/test-utils'
 
 import Checkbox from '.'
 
 describe('<Checkbox />', () => {
   it('should render with label', () => {
-    rendertWithTheme(<Checkbox label="checkbox label" labelFor="check" />)
+    render(<Checkbox label="checkbox label" labelFor="check" />)
 
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
     expect(screen.getByLabelText(/checkbox label/i)).toBeInTheDocument()
@@ -14,14 +13,14 @@ describe('<Checkbox />', () => {
   })
 
   it('should render without label', () => {
-    rendertWithTheme(<Checkbox />)
+    render(<Checkbox />)
 
     //Sempre que vc pesquisa algo que não quer encontrar, utilize o query
     expect(screen.queryByLabelText(/checkbox label/i)).not.toBeInTheDocument()
   })
 
   it('should render with black label', () => {
-    rendertWithTheme(
+    render(
       <Checkbox label="checkbox label" labelFor="check" labelColor="black" />
     )
 
@@ -34,7 +33,7 @@ describe('<Checkbox />', () => {
   it('should dispatch onCheck when changes', async () => {
     const onCheck = jest.fn()
 
-    rendertWithTheme(<Checkbox label="Checkbox" onCheck={onCheck} />)
+    render(<Checkbox label="Checkbox" onCheck={onCheck} />)
 
     expect(onCheck).not.toHaveBeenCalled()
 
@@ -48,7 +47,7 @@ describe('<Checkbox />', () => {
   it('should dispatch onCheck when changes', async () => {
     const onCheck = jest.fn()
 
-    rendertWithTheme(<Checkbox label="Checkbox" onCheck={onCheck} isChecked />)
+    render(<Checkbox label="Checkbox" onCheck={onCheck} isChecked />)
 
     expect(onCheck).not.toHaveBeenCalled()
 
@@ -60,9 +59,7 @@ describe('<Checkbox />', () => {
   })
 
   it('should be accessibel with tab', () => {
-    rendertWithTheme(
-      <Checkbox label="Checkbox" labelFor="Checkbox" isChecked />
-    )
+    render(<Checkbox label="Checkbox" labelFor="Checkbox" isChecked />)
 
     expect(document.body).toHaveFocus()
 

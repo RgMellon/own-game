@@ -1,10 +1,9 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from 'utils/test-utils'
 
 import Wishlist from '.'
 
 import gamesMock from 'components/GameCardSlider/mock'
 import highlighMock from 'components/Highlight/mock'
-import { rendertWithTheme } from 'utils/tests/helpers'
 
 const props = {
   games: gamesMock,
@@ -24,7 +23,7 @@ jest.mock('components/ShowCase', () => {
 
 describe('<Wishlist />', () => {
   it('should render the wishlist page', () => {
-    rendertWithTheme(<Wishlist {...props} />)
+    render(<Wishlist {...props} />)
 
     expect(
       screen.getByRole('heading', { name: /wishlist/i })
@@ -35,7 +34,7 @@ describe('<Wishlist />', () => {
   })
 
   it('Should render empty when there are no game', () => {
-    rendertWithTheme(
+    render(
       <Wishlist
         recommendedGames={gamesMock}
         recommendedHighlight={highlighMock}
