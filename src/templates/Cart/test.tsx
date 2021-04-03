@@ -2,17 +2,15 @@ import { render, screen } from 'utils/test-utils'
 
 import Cart from '.'
 
-import itemsMock from 'components/CartList/mock'
 import gameSmock from 'components/GameCardSlider/mock'
 import highlightMock from 'components/Highlight/mock'
 import cardsMock from 'components/PaymentOptions/mock'
 
 const props = {
-  items: itemsMock,
-  total: '$ 500,00',
   cards: cardsMock,
   recommendedGames: gameSmock,
-  recommendedHighlight: highlightMock
+  recommendedHighlight: highlightMock,
+  recommendedTitle: 'You may like these games'
 }
 
 jest.mock('templates/Base', () => {
@@ -70,11 +68,5 @@ describe('<Cart />', () => {
     expect(screen.getByTestId('Mock Cart')).toBeInTheDocument()
     expect(screen.getByTestId('Mock PaymentOptions')).toBeInTheDocument()
     expect(screen.getByTestId('Mock Showcase')).toBeInTheDocument()
-  })
-
-  it('should render the empty component if there are no items', () => {
-    render(<Cart {...props} items={[]} />)
-
-    expect(screen.getByTestId('Mock Empty')).toBeInTheDocument()
   })
 })

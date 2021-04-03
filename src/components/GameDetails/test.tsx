@@ -6,6 +6,7 @@ const props: GameDetailProps = {
   developer: 'Different Tales',
   platforms: ['linux', 'windows'],
   releaseDate: '2020-11-21T23:00:00',
+  publisher: 'Ea sportes',
   rating: 'BR0',
   genres: ['Role-playing', 'Narrative']
 }
