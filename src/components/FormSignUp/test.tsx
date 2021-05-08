@@ -14,7 +14,7 @@ describe('<FormSignUp />', () => {
 
     expect(screen.getByPlaceholderText(/E-mail/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Confirm Password')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Confirm password')).toBeInTheDocument()
 
     expect(
       screen.getByRole('button', { name: /Sign up now/i })

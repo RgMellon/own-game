@@ -19,7 +19,7 @@ import Logo from 'components/Logo'
 import Button from 'components/Button'
 
 export type MenuProps = {
-  username?: string
+  username?: string | null
 }
 
 const Menu = ({ username }: MenuProps) => {

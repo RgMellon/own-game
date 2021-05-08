@@ -1,24 +1,33 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
-
-import TextField from 'components/TextField'
-import Button from 'components/Button'
-
+import { signIn } from 'next-auth/client'
 import { AccountCircle, Email, Lock } from '@styled-icons/material-outlined'
 
-import { FormWrapper, FormLink } from 'components/Form'
+import { FormWrapper, FormLink, FormLoading } from 'components/Form'
+import Button from 'components/Button'
+import TextField from 'components/TextField'
 import { UsersPermissionsRegisterInput } from 'graphql/generated/globalTypes'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { MUTATION_REGISTER } from 'graphql/mutations/register'
 
 const FormSignUp = () => {
   const [values, setValues] = useState<UsersPermissionsRegisterInput>({
+    username: '',
     email: '',
-    password: '',
-    username: ''
+    password: ''
   })
 
-  const [createUser] = useMutation(MUTATION_REGISTER)
+  const [createUser, { error, loading }] = useMutation(MUTATION_REGISTER, {
+    onError: (err) => console.error(err),
+    onCompleted: () => {
+      !error &&
+        signIn('credentials', {
+          email: values.email,
+          password: values.password,
+          callbackUrl: '/'
+        })
+    }
+  })
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }))
@@ -42,43 +51,40 @@ const FormSignUp = () => {
     <FormWrapper>
       <form onSubmit={handleSubmit}>
         <TextField
-          placeholder="Name"
-          name="userName"
+          name="username"
+          placeholder="Username"
           type="text"
-          onInputChange={(v) => handleInput('userName', v)}
+          onInputChange={(v) => handleInput('username', v)}
           icon={<AccountCircle />}
-        ></TextField>
-
+        />
         <TextField
-          placeholder="E-mail"
           name="email"
+          placeholder="E-mail"
           type="email"
           onInputChange={(v) => handleInput('email', v)}
           icon={<Email />}
-        ></TextField>
-
+        />
         <TextField
-          placeholder="Password"
           name="password"
+          placeholder="Password"
           type="password"
-          icon={<Lock />}
           onInputChange={(v) => handleInput('password', v)}
-        ></TextField>
-
+          icon={<Lock />}
+        />
         <TextField
-          placeholder="Confirm Password"
           name="confirm-password"
+          placeholder="Confirm password"
           type="password"
           onInputChange={(v) => handleInput('confirm-password', v)}
           icon={<Lock />}
-        ></TextField>
+        />
 
-        <Button size="large" type="submit" fullWidth>
-          Sign up now
+        <Button type="submit" size="large" fullWidth disabled={loading}>
+          {loading ? <FormLoading /> : <span>Sign up now</span>}
         </Button>
 
         <FormLink>
-          ALready have an account?
+          Already have an account?{' '}
           <Link href="/sign-in">
             <a>Sign in</a>
           </Link>
