@@ -10,12 +10,16 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { MUTATION_REGISTER } from 'graphql/mutations/register'
 
+import { FieldErrors, signUpValidate } from 'utils/validations'
+
 const FormSignUp = () => {
   const [values, setValues] = useState<UsersPermissionsRegisterInput>({
     username: '',
     email: '',
     password: ''
   })
+
+  const [fieldError, setFieldError] = useState<FieldErrors>({})
 
   const [createUser, { error, loading }] = useMutation(MUTATION_REGISTER, {
     onError: (err) => console.error(err),
@@ -35,6 +39,16 @@ const FormSignUp = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+
+    const errors = signUpValidate(values)
+
+    if (Object.keys(errors).length) {
+      setFieldError(errors)
+
+      return
+    }
+
+    setFieldError({})
 
     createUser({
       variables: {
@@ -56,6 +70,7 @@ const FormSignUp = () => {
           type="text"
           onInputChange={(v) => handleInput('username', v)}
           icon={<AccountCircle />}
+          error={fieldError?.username}
         />
         <TextField
           name="email"
@@ -63,8 +78,10 @@ const FormSignUp = () => {
           type="email"
           onInputChange={(v) => handleInput('email', v)}
           icon={<Email />}
+          error={fieldError?.email}
         />
         <TextField
+          error={fieldError?.password}
           name="password"
           placeholder="Password"
           type="password"
@@ -72,11 +89,12 @@ const FormSignUp = () => {
           icon={<Lock />}
         />
         <TextField
-          name="confirm-password"
+          name="confirm_password"
           placeholder="Confirm password"
           type="password"
-          onInputChange={(v) => handleInput('confirm-password', v)}
+          onInputChange={(v) => handleInput('confirm_password', v)}
           icon={<Lock />}
+          error={fieldError?.confirm_password}
         />
 
         <Button type="submit" size="large" fullWidth disabled={loading}>

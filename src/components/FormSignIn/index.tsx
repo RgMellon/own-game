@@ -3,18 +3,25 @@ import { signIn } from 'next-auth/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Email, Lock } from '@styled-icons/material-outlined'
+import { Email, Lock, ErrorOutline } from '@styled-icons/material-outlined'
 
-import { FormLink, FormWrapper, FormLoading } from 'components/Form'
+import { FormLink, FormWrapper, FormLoading, FormError } from 'components/Form'
 import Button from 'components/Button'
 import TextField from 'components/TextField'
+
+import { FieldErrors, sigInValidate } from 'utils/validations'
 
 import * as S from './styles'
 
 const FormSignIn = () => {
-  const [values, setValues] = useState({})
+  const [formError, setFormError] = useState('')
+  const [fieldError, setFieldError] = useState<FieldErrors>({})
+
+  const [values, setValues] = useState({ email: '', password: '' })
+
   const [loading, setLoading] = useState(false)
-  const { push } = useRouter()
+  const routes = useRouter()
+  const { push, query } = routes
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }))
@@ -24,11 +31,20 @@ const FormSignIn = () => {
     event.preventDefault()
     setLoading(true)
 
-    // sign in
+    const errors = sigInValidate(values)
+
+    if (Object.keys(errors).length) {
+      setFieldError(errors)
+      setLoading(false)
+      return
+    }
+
+    setFieldError({})
+
     const result = await signIn('credentials', {
       ...values,
       redirect: false,
-      callbackUrl: '/'
+      callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
     })
 
     if (result?.url) {
@@ -37,12 +53,17 @@ const FormSignIn = () => {
 
     setLoading(false)
 
-    // jogar o erro
-    console.error('email ou senha inválida')
+    setFormError('Username or password is invalid')
   }
 
   return (
     <FormWrapper>
+      {!!formError && (
+        <FormError>
+          <ErrorOutline />
+          {formError}
+        </FormError>
+      )}
       <form onSubmit={handleSubmit}>
         <TextField
           name="email"
@@ -50,8 +71,11 @@ const FormSignIn = () => {
           type="email"
           onInputChange={(v) => handleInput('email', v)}
           icon={<Email />}
+          error={fieldError?.email}
         />
+
         <TextField
+          error={fieldError?.password}
           name="password"
           placeholder="Password"
           type="password"
